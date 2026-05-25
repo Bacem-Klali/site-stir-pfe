@@ -4,22 +4,18 @@ import bcrypt from 'bcryptjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  const hash = await bcrypt.hash('password123', 10);
-
+  const hash = await bcrypt.hash('owner123', 10);
   await prisma.user.upsert({
-    where: { email: 'admin@stir.com' },
+    where: { email: 'owner@stir.com' },
     update: {},
     create: {
-      email: 'admin@stir.com',
+      email: 'owner@stir.com',
       password: hash,
-      name: 'Admin',
-      role: 'admin',
+      name: 'Owner',
+      role: 'owner',
     },
   });
-
-  console.log('✔ Seed done');
+  console.log('Seed done — owner@stir.com / owner123');
 }
 
-main()
-  .catch(console.error)
-  .finally(() => prisma.$disconnect());
+main().catch(console.error).finally(() => prisma.$disconnect());

@@ -36,7 +36,7 @@ export default function DashboardPage() {
     if (file) setUploadedFile(file.name);
   };
 
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = user?.role === 'admin' || user?.role === 'owner';
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col font-sans">

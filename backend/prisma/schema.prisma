@@ -8,10 +8,25 @@ datasource db {
 }
 
 model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  role        String   @default("user") // "owner" | "admin" | "user"
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  createdById Int?
+  createdBy   User?    @relation("CreatedBy", fields: [createdById], references: [id])
+  createdUsers User[]  @relation("CreatedBy")
+  loginLogs   LoginLog[]
+}
+
+model LoginLog {
   id        Int      @id @default(autoincrement())
-  email     String   @unique
-  password  String
-  name      String
-  role      String   @default("user")
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  email     String
+  success   Boolean
+  ip        String?
   createdAt DateTime @default(now())
 }
