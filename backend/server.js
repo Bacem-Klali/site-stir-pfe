@@ -6,6 +6,8 @@ import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { verifyToken } from './middleware/auth.js';
 
+import etlRouter from './routes/etl.js';
+
 dotenv.config();
 
 const app = express();
@@ -13,6 +15,10 @@ const prisma = new PrismaClient();
 
 app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(express.json());
+
+app.use('/api/etl', etlRouter);
+
+
 
 // ── AUTH ──────────────────────────────────────────────
 
@@ -25,6 +31,8 @@ app.post('/api/auth/login', async (req, res) => {
   const user = await prisma.user.findUnique({
     where: { email: email.toLowerCase() },
   });
+
+  
 
   const success = user ? await bcrypt.compare(password, user.password) : false;
 
@@ -57,6 +65,8 @@ app.post('/api/auth/login', async (req, res) => {
     user: { id: user.id, email: user.email, name: user.name, role: user.role },
   });
 });
+
+
 
 // GET /api/auth/me
 app.get('/api/auth/me', verifyToken, async (req, res) => {
@@ -98,6 +108,15 @@ app.get('/api/admin/users', verifyToken, requireAdmin, async (req, res) => {
     },
   });
   res.json({ users });
+});
+
+app.get('/api/admin/logs/imports', verifyToken, requireAdmin, async (req, res) => {
+  const logs = await prisma.importLog.findMany({
+    orderBy: { createdAt: 'desc' },
+    take: 100,
+    include: { user: { select: { name: true } } },
+  });
+  res.json({ logs });
 });
 
 // POST /api/admin/users — create user

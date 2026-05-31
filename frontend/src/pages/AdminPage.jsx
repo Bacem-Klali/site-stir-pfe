@@ -54,6 +54,9 @@ export default function AdminPage() {
 
   const isOwner = user?.role === 'owner';
 
+  const [importLogs, setImportLogs] = useState([]);
+  const [importLogsLoading, setImportLogsLoading] = useState(false);
+
   // ── fetch users ──
   const fetchUsers = useCallback(async () => {
     setUsersLoading(true);
@@ -80,10 +83,24 @@ export default function AdminPage() {
     }
   }, [token]);
 
+  // ── fetch import logs ──
+  const fetchImportLogs = useCallback(async () => {
+    setImportLogsLoading(true);
+    try {
+      const res = await axios.get('/api/admin/logs/imports', API(token));
+      setImportLogs(res.data.logs);
+    } catch {
+      //
+    } finally {
+      setImportLogsLoading(false);
+    }
+  }, [token]);
+
   useEffect(() => {
     if (section === 'users') fetchUsers();
     if (section === 'logins') fetchLogs();
-  }, [section, fetchUsers, fetchLogs]);
+    if (section === 'imports') fetchImportLogs();
+  }, [section, fetchUsers, fetchLogs, fetchImportLogs]);
 
   // ── create user ──
   const handleCreate = async (e) => {
@@ -248,7 +265,7 @@ export default function AdminPage() {
                   required
                   value={form.name}
                   onChange={e => setForm({ ...form, name: e.target.value })}
-                  placeholder="Jean Dupont"
+                  placeholder="Ahmed"
                   className="border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-400 transition-colors"
                 />
               </div>
@@ -259,7 +276,7 @@ export default function AdminPage() {
                   required
                   value={form.email}
                   onChange={e => setForm({ ...form, email: e.target.value })}
-                  placeholder="jean@stir.com"
+                  placeholder="ahmed@stir.com"
                   className="border border-gray-200 rounded-lg px-3.5 py-2.5 text-sm focus:outline-none focus:border-blue-400 transition-colors"
                 />
               </div>
@@ -416,16 +433,50 @@ export default function AdminPage() {
           </div>
         )}
 
-        {/* ── IMPORTS PLACEHOLDER ── */}
         {section === 'imports' && (
-          <div className="bg-white rounded-2xl border border-gray-100 flex flex-col items-center justify-center py-24 gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-2xl text-gray-300">
-              📂
-            </div>
-            <p className="text-gray-400 text-sm font-medium">Journal des imports</p>
-            <p className="text-gray-300 text-xs">Fonctionnalité à venir — les logs d'import apparaîtront ici</p>
-          </div>
-        )}
+  <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden">
+    {importLogsLoading ? (
+      <div className="flex items-center justify-center py-20 text-gray-300 text-sm">Chargement...</div>
+    ) : importLogs.length === 0 ? (
+      <div className="flex flex-col items-center justify-center py-24 gap-4">
+        <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center text-2xl text-gray-300">📂</div>
+        <p className="text-gray-400 text-sm font-medium">Aucun import effectué</p>
+      </div>
+    ) : (
+      <table className="w-full text-sm">
+        <thead>
+          <tr className="border-b border-gray-100 bg-gray-50">
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Utilisateur</th>
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Année</th>
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Statut</th>
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Fichiers</th>
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Message</th>
+            <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wide">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {importLogs.map(log => (
+            <tr key={log.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
+              <td className="px-6 py-3 font-medium text-gray-700">{log.user?.name}</td>
+              <td className="px-6 py-3 text-gray-600">Budget {log.year}</td>
+              <td className="px-6 py-3">
+                <span className={`text-xs font-medium px-2.5 py-1 rounded-full
+                  ${log.status === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-400'}`}>
+                  {log.status === 'success' ? '✓ Succès' : '✗ Erreur'}
+                </span>
+              </td>
+              <td className="px-6 py-3 text-gray-400 text-xs">{log.filesCount} / 5</td>
+              <td className="px-6 py-3 text-gray-400 text-xs max-w-xs truncate">{log.message}</td>
+              <td className="px-6 py-3 text-gray-400 text-xs">
+                {new Date(log.createdAt).toLocaleString('fr-FR')}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+)}
       </main>
 
       {/* ── FOOTER ── */}

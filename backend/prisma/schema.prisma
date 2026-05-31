@@ -19,6 +19,7 @@ model User {
   createdBy   User?    @relation("CreatedBy", fields: [createdById], references: [id])
   createdUsers User[]  @relation("CreatedBy")
   loginLogs   LoginLog[]
+  importLogs  ImportLog[]
 }
 
 model LoginLog {
@@ -29,4 +30,15 @@ model LoginLog {
   success   Boolean
   ip        String?
   createdAt DateTime @default(now())
+}
+
+model ImportLog {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  year        String
+  status      String   // 'success' | 'error'
+  message     String?
+  filesCount  Int
+  createdAt   DateTime @default(now())
 }

@@ -3,7 +3,8 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
 import AdminPage from './pages/AdminPage';
-
+import ImportPage from './pages/ImportPage';
+import Layout from './components/Layout';
 function ProtectedRoute({ children }) {
   const { isAuthenticated, isLoading } = useAuth();
 
@@ -40,10 +41,13 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<LoginPage />} />
           <Route path="/dashboard" element={
-            <ProtectedRoute><DashboardPage /></ProtectedRoute>
+            <ProtectedRoute><Layout><DashboardPage /></Layout></ProtectedRoute>
           } />
           <Route path="/admin" element={
             <AdminRoute><AdminPage /></AdminRoute>
+          } />
+          <Route path="/import" element={
+            <ProtectedRoute><Layout><ImportPage /></Layout></ProtectedRoute>
           } />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

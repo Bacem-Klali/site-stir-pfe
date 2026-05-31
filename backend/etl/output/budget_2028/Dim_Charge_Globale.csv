@@ -1,0 +1,32 @@
+﻿ID_Nature_Charge;Libelle_Charge;ID_Categorie;Libelle_Categorie;Regroupement_Strategique
+1;Ecole pompiers;1;Services extérieurs;Charges Opérationnelles
+2;Frais d'enregistrement;2;Impôts et taxes;Charges Fiscales
+3;Taxe de circulation;2;Impôts et taxes;Charges Fiscales
+4;Impot sur les societes;2;Impôts et taxes;Charges Fiscales
+5;Autres impots et taxes;2;Impôts et taxes;Charges Fiscales
+6;Dotations aux amortissements;3;Dotations;Charges Calculées
+7;Dotations aux provisions;3;Dotations;Charges Calculées
+8;Salaires;4;Charges de personnel;Charges de Personnel
+9;Heures supplementaires;4;Charges de personnel;Charges de Personnel
+10;Primes et indemnites;4;Charges de personnel;Charges de Personnel
+11;Avantages en nature;4;Charges de personnel;Charges de Personnel
+12;Conges payes;4;Charges de personnel;Charges de Personnel
+13;Cotisations CNSS;5;Charges sociales;Charges de Personnel
+14;Regime assurance maladie;5;Charges sociales;Charges de Personnel
+15;Charges formation prof.;5;Charges sociales;Charges de Personnel
+16;Locations (Kiraat);1;Services extérieurs;Charges Opérationnelles
+17;Services communs (Kiraat);1;Services extérieurs;Charges Opérationnelles
+18;Entretien (Abaa);1;Services extérieurs;Charges Opérationnelles
+19;Assurances (Apsat);1;Services extérieurs;Charges Opérationnelles
+20;Etudes et recherches;1;Services extérieurs;Charges Opérationnelles
+21;Personnel extérieur;1;Services extérieurs;Charges Opérationnelles
+22;Audit et contrôle;1;Services extérieurs;Charges Opérationnelles
+23;Publicité et inscriptions;1;Services extérieurs;Charges Opérationnelles
+24;Attente supplémentaire;1;Services extérieurs;Charges Opérationnelles
+25;Transport de marchandises;1;Services extérieurs;Charges Opérationnelles
+26;Frais de mission;1;Services extérieurs;Charges Opérationnelles
+27;Déplacements;1;Services extérieurs;Charges Opérationnelles
+28;Frais de mission (suite);1;Services extérieurs;Charges Opérationnelles
+29;Réceptions;1;Services extérieurs;Charges Opérationnelles
+30;Frais postaux;1;Services extérieurs;Charges Opérationnelles
+31;Commission Hedging;1;Services extérieurs;Charges Opérationnelles
