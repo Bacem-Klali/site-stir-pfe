@@ -1,4 +1,5 @@
-﻿ID_Scenario;Libelle_Scenario
-1;Prévision
-2;Actualisation
-3;Réalisation
+﻿ScenarioKey,scenario,periode_type,periode_fin_mois
+1,Actualisation,ANNUEL,12
+2,Prevision,ANNUEL,12
+3,Realisation,ANNUEL,12
+4,Realisation,YTD,9

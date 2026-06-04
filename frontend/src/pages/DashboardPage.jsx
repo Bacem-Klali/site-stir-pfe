@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import logo from '../assets/logostir.png';
 
-const BASE = 'https://app.powerbi.com/view?r=eyJrIjoiODMxMzRjNjktNTAwYS00MTk1LWE3YzMtYjFlM2QzNTRhOGU5IiwidCI6ImRiZDY2NjRkLTRlYjktNDZlYi05OWQ4LTVjNDNiYTE1M2M2MSIsImMiOjl9&pageName=fc3853f1ecea84ffa6b6';
+const BASE = 'https://app.powerbi.com/view?r=eyJrIjoiMmU4YzJiM2MtMzlmMy00OWMxLWFhNjgtYzQ3NmZlYmI4ZTlkIiwidCI6ImRiZDY2NjRkLTRlYjktNDZlYi05OWQ4LTVjNDNiYTE1M2M2MSIsImMiOjl9&pageName=f713172fd0e756adaa1e';
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();

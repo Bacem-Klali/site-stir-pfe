@@ -1,0 +1,26 @@
+﻿ProduitKey,produit,type_produit,unite,prix_unite
+1,410.704,Inconnu,Tonne,TND/Tonne
+2,Butane B/C,Importé,Tonne,TND/Tonne
+3,Butane C/C,Importé,Tonne,TND/Tonne
+4,Ess L Raffinée,Semi-fini,Tonne,TND/Tonne
+5,Ess Ss Plomb,Fini,Tonne,TND/Tonne
+6,Fuel oil,Importé,Tonne,TND/Tonne
+7,Fuel oil BTS,Fini,Tonne,TND/Tonne
+8,Fuel oil BTS (Exp),Fini,Tonne,TND/Tonne
+9,Fuel oil HTS,Fini,Tonne,TND/Tonne
+10,GPL,Fini,Tonne,TND/Tonne
+11,GPL ETAP-BG,Importé,Tonne,TND/Tonne
+12,GPL ETAP-EN,Importé,Tonne,TND/Tonne
+13,GPL ETAP-OM,Importé,Tonne,TND/Tonne
+14,GPL ETAP-SH,Importé,Tonne,TND/Tonne
+15,GPL STEG,Importé,Tonne,TND/Tonne
+16,Gas oil,Fini,Tonne,TND/Tonne
+17,Gas oil 50ppm,Importé,Tonne,TND/Tonne
+18,Jet A1,Importé,Tonne,TND/Tonne
+19,PB1,Brut,Tonne,TND/Tonne
+20,PB2,Brut,Tonne,TND/Tonne
+21,PB3,Brut,Tonne,TND/Tonne
+22,Pétrole,Fini,Tonne,TND/Tonne
+23,Slop,Semi-fini,Tonne,TND/Tonne
+24,V Naphte (Exp),Fini,Tonne,TND/Tonne
+25,White Spirit,Fini,Tonne,TND/Tonne

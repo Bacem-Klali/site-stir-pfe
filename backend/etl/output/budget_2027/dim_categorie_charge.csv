@@ -1,0 +1,32 @@
+﻿CategorieChargeKey,categorie_charge,famille_charge
+1,Assurances (Apsat),ChargesExternes
+2,Attente supplémentaire,ChargesExternes
+3,Audit et contrôle,ChargesExternes
+4,Commission Hedging,ChargesExternes
+5,Déplacements,ChargesExternes
+6,Entretien (Abaa),ChargesExternes
+7,Etudes et recherches,ChargesExternes
+8,Frais de mission,ChargesExternes
+9,Frais de mission (suite),ChargesExternes
+10,Frais postaux,ChargesExternes
+11,Locations (Kiraat),ChargesExternes
+12,Personnel extérieur,ChargesExternes
+13,Publicité et inscriptions,ChargesExternes
+14,Réceptions,ChargesExternes
+15,Services communs (Kiraat),ChargesExternes
+16,Transport de marchandises,ChargesExternes
+17,Autres impots et taxes,Impots_Taxes_Dotations
+18,Dotations aux amortissements,Impots_Taxes_Dotations
+19,Dotations aux provisions,Impots_Taxes_Dotations
+20,Ecole pompiers,Impots_Taxes_Dotations
+21,Frais d'enregistrement,Impots_Taxes_Dotations
+22,Impot sur les societes,Impots_Taxes_Dotations
+23,Taxe de circulation,Impots_Taxes_Dotations
+24,Avantages en nature,Personnel
+25,Charges formation prof.,Personnel
+26,Conges payes,Personnel
+27,Cotisations CNSS,Personnel
+28,Heures supplementaires,Personnel
+29,Primes et indemnites,Personnel
+30,Regime assurance maladie,Personnel
+31,Salaires,Personnel
