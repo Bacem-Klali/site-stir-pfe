@@ -1,14 +1,12 @@
+import './loadEnv.js';
 import express from 'express';
 import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import { PrismaClient } from '@prisma/client';
 import { verifyToken } from './middleware/auth.js';
 
 import etlRouter from './routes/etl.js';
-
-dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();

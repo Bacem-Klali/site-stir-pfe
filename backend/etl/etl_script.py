@@ -4,25 +4,29 @@ import re
 import pandas as pd
 import numpy as np
 from pathlib import Path
+from sqlalchemy import create_engine, text
 
 sys.stdout.reconfigure(encoding='utf-8')
 
 # ==========================================
-# ARGUMENTS : input_dir, output_dir, year
+# ARGUMENTS : input_dir, year
 # ==========================================
-if len(sys.argv) < 4:
-    print("Usage: python etl_script.py <input_dir> <output_dir> <year>")
+if len(sys.argv) < 3:
+    print("Usage: python etl_script.py <input_dir> <year>")
     sys.exit(1)
 
 input_dir  = Path(sys.argv[1])
-output_dir = Path(sys.argv[2])
-BASE_YEAR_N = int(sys.argv[3])
+BASE_YEAR_N = int(sys.argv[2])
+SCHEMA_NAME = f"budget_{BASE_YEAR_N}"
 
-output_dir.mkdir(parents=True, exist_ok=True)
+dw_url = os.environ.get("DW_DATABASE_URL")
+if not dw_url:
+    print("ERREUR: Variable d'environnement DW_DATABASE_URL manquante.")
+    sys.exit(1)
 
 print(f"ETL démarré pour l'année budgétaire {BASE_YEAR_N}")
 print(f"Dossier source  : {input_dir}")
-print(f"Dossier sortie  : {output_dir}")
+print(f"Schéma cible    : {SCHEMA_NAME}")
 
 # ==========================================
 # FICHIERS SOURCE
@@ -409,24 +413,47 @@ fact_charges = (fact_charges
                 .sum(min_count=1))
 
 # ==========================================
-# EXPORT CSV
+# EXPORT PostgreSQL (stirsite_dw)
 # ==========================================
-sep = ","
-enc = "utf-8-sig"
+tables = {
+    "dim_temps":              dim_temps,
+    "dim_scenario":           dim_scenario,
+    "dim_produit":            dim_produit,
+    "dim_categorie_charge":   dim_cat_charge,
+    "fact_production":        fact_production,
+    "fact_importation":       fact_importation,
+    "fact_charges":           fact_charges,
+}
 
-dim_temps.to_csv(output_dir / "dim_temps.csv",               sep=sep, index=False, encoding=enc)
-dim_scenario.to_csv(output_dir / "dim_scenario.csv",         sep=sep, index=False, encoding=enc)
-dim_produit.to_csv(output_dir / "dim_produit.csv",           sep=sep, index=False, encoding=enc)
-dim_cat_charge.to_csv(output_dir / "dim_categorie_charge.csv", sep=sep, index=False, encoding=enc)
-fact_production.to_csv(output_dir / "fact_production.csv",   sep=sep, index=False, encoding=enc)
-fact_importation.to_csv(output_dir / "fact_importation.csv", sep=sep, index=False, encoding=enc)
-fact_charges.to_csv(output_dir / "fact_charges.csv",         sep=sep, index=False, encoding=enc)
+engine = create_engine(dw_url)
 
-print(f"\n  ✔ dim_temps.csv            — {len(dim_temps)} lignes")
-print(f"  ✔ dim_scenario.csv         — {len(dim_scenario)} lignes")
-print(f"  ✔ dim_produit.csv          — {len(dim_produit)} lignes")
-print(f"  ✔ dim_categorie_charge.csv — {len(dim_cat_charge)} lignes")
-print(f"  ✔ fact_production.csv      — {len(fact_production)} lignes")
-print(f"  ✔ fact_importation.csv     — {len(fact_importation)} lignes")
-print(f"  ✔ fact_charges.csv         — {len(fact_charges)} lignes")
+with engine.connect() as conn:
+    conn.execute(text(f'CREATE SCHEMA IF NOT EXISTS "{SCHEMA_NAME}"'))
+    conn.commit()
+
+for name, df in tables.items():
+    df.to_sql(
+        name,
+        engine,
+        schema=SCHEMA_NAME,
+        if_exists="replace",
+        index=False,
+        method="multi",
+        chunksize=1000,
+    )
+    print(f"  ✔ {SCHEMA_NAME}.{name} — {len(df)} lignes")
+
+with engine.connect() as conn:
+    conn.execute(
+        text("""
+            INSERT INTO public.budget_registry (year, schema_name, imported_at)
+            VALUES (:year, :schema, NOW())
+            ON CONFLICT (year) DO UPDATE
+              SET schema_name = EXCLUDED.schema_name,
+                  imported_at = NOW()
+        """),
+        {"year": str(BASE_YEAR_N), "schema": SCHEMA_NAME},
+    )
+    conn.commit()
+
 print(f"\n✅ ETL terminé avec succès pour le budget {BASE_YEAR_N} !")

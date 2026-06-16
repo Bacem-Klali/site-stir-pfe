@@ -115,7 +115,8 @@ return (
     )}
     {activeYear && (
       <p className="text-xs text-gray-400 mt-2">
-        ⚠ Après avoir activé un budget, cliquez sur <strong>Actualiser</strong> dans Power BI Desktop.
+        Power BI est connecté au schéma <strong>active_view</strong> de stirsite_dw.
+        Après activation, cliquez sur <strong>Actualiser</strong> dans Power BI — aucune modification de connexion n'est nécessaire.
       </p>
     )}
   </div>
